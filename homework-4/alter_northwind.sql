@@ -18,11 +18,9 @@ ALTER TABLE snyatie ADD CONSTRAINT fk_snyat_categories FOREIGN KEY (category_id)
 ALTER TABLE snyatie ADD CONSTRAINT fk_snyat_suppliers FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id);
 -- создал теже связи что были в таблице products
 
--- думал дальше сначала стереть связи, удалить ненужные строки, и обратно все подвязать, но не хочет, так что тут дае не знаю
-ALTER TABLE products DROP CONSTRAINT pk_products;
-ALTER TABLE products DROP CONSTRAINT fk_products_suppliers;
-ALTER TABLE products DROP CONSTRAINT fk_products_categories;
-DELETE FROM products WHERE discontinued=1
-ALTER TABLE products ADD CONSTRAINT pk_products PRIMARY KEY (product_id);
-ALTER TABLE products ADD CONSTRAINT fk_products_suppliers FOREIGN KEY (category_id) REFERENCES categories(category_id);
-ALTER TABLE products ADD CONSTRAINT fk_products_categories FOREIGN KEY (supplier_id) REFERENCES suppliers(supplier_id);
+ALTER TABLE order_details DROP CONSTRAINT fk_order_details_products;
+
+ALTER TABLE order_details ADD CONSTRAINT fk_order_details_products
+FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE;
+
+DELETE FROM products WHERE discontinued = 1
